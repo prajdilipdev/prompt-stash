@@ -45,7 +45,7 @@ export function ConfirmDialog({
       className="overflow-visible"
     >
       <DialogHeader id="confirm-dialog-title" title={title} description={description} />
-      <div className="px-6 py-4">
+      <div className="px-4 py-4 sm:px-6">
         {requirePhrase && (
           <div>
             <Label htmlFor="confirm-phrase" required>

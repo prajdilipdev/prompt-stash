@@ -2,7 +2,7 @@ import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes } fro
 import { cn } from '@/lib/utils'
 
 export const fieldClasses = cn(
-  'w-full rounded-md border border-border bg-input px-3 text-sm text-foreground',
+  'w-full rounded-md border border-border bg-input px-3 text-base sm:text-sm text-foreground',
   'placeholder:text-muted-foreground/70',
   'transition-colors duration-150',
   'focus:outline-none focus:border-ring/70 focus:ring-2 focus:ring-ring/30',

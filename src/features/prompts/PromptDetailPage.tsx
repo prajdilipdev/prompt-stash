@@ -133,12 +133,13 @@ export function PromptDetailPage() {
               </IconButton>
               <Button variant="secondary" size="sm" className="ml-1" onClick={() => setTesterOpen(true)}>
                 <Play className="h-4 w-4" aria-hidden="true" />
-                Test Prompt
+                <span className="hidden sm:inline">Test Prompt</span>
+                <span className="sm:hidden">Test</span>
               </Button>
               {!isArchived && (
                 <Button variant="primary" size="sm" onClick={() => navigate(`/app/prompts/${prompt.id}/edit`)}>
                   <Pencil className="h-4 w-4" aria-hidden="true" />
-                  Edit
+                  <span>Edit</span>
                 </Button>
               )}
             </>

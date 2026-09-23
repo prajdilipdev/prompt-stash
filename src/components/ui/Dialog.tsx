@@ -131,7 +131,7 @@ export function DialogHeader({
   description?: string
 }) {
   return (
-    <div className="border-b border-border px-6 py-4">
+    <div className="border-b border-border px-4 py-3.5 sm:px-6 sm:py-4">
       <h2 id={id} className="text-h3 text-foreground">
         {title}
       </h2>
@@ -144,7 +144,7 @@ export function DialogFooter({ children, className }: { children: ReactNode; cla
   return (
     <div
       className={cn(
-        'flex flex-col-reverse justify-end gap-2 border-t border-border px-6 py-4 sm:flex-row',
+        'flex flex-col-reverse justify-end gap-2 border-t border-border px-4 py-3 sm:flex-row sm:px-6 sm:py-4',
         className,
       )}
     >

@@ -283,6 +283,15 @@
     background-size: 44px 44px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
   }
+
+  /* Hide scrollbars on mobile horizontal chips while retaining scrolling */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 /* ---------- Reduced motion ---------- */

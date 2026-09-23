@@ -37,7 +37,7 @@ export function SettingsPage() {
       </p>
 
       <Tabs value={tab} onChange={(v) => setTab(v as SettingsTab)} label="Settings" className="mt-6">
-        <TabList className="flex-wrap border-b border-border pb-3">
+        <TabList className="overflow-x-auto no-scrollbar border-b border-border pb-2.5 sm:pb-3">
           <Tab value="account">Account</Tab>
           <Tab value="appearance">Appearance</Tab>
           <Tab value="library">Library</Tab>

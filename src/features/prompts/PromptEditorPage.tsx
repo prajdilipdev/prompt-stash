@@ -352,14 +352,14 @@ export function PromptEditorPage() {
             />
             <span className="text-[13px] text-muted-foreground">Favorite</span>
           </div>
-          <div className="flex flex-col-reverse gap-2 sm:flex-row">
-            <Button type="button" variant="secondary" onClick={() => navigate(-1)}>
+          <div className="flex items-center gap-2">
+            <Button type="button" variant="secondary" size="sm" className="hidden sm:inline-flex" onClick={() => navigate(-1)}>
               Cancel
             </Button>
-            <Button type="button" variant="secondary" disabled={!isValid} onClick={() => void onSaveAndClose()}>
+            <Button type="button" variant="secondary" size="sm" className="hidden sm:inline-flex" disabled={!isValid} onClick={() => void onSaveAndClose()}>
               Save &amp; Close
             </Button>
-            <Button type="submit" disabled={!isValid}>
+            <Button type="submit" size="sm" disabled={!isValid}>
               Save
             </Button>
           </div>
@@ -374,7 +374,7 @@ export function PromptEditorPage() {
               id="prompt-title"
               placeholder="e.g. Product Description Optimizer"
               invalid={Boolean(errors.title)}
-              className="h-11 text-[15px] font-medium"
+              className="h-11 text-base sm:text-[15px] font-medium"
               {...register('title')}
             />
             <FieldError>{errors.title?.message}</FieldError>
@@ -386,6 +386,7 @@ export function PromptEditorPage() {
               id="prompt-description"
               placeholder="What does this prompt do, and when should you use it?"
               invalid={Boolean(errors.description)}
+              className="text-base sm:text-sm"
               {...register('description')}
             />
             <FieldError>{errors.description?.message}</FieldError>
@@ -408,7 +409,7 @@ export function PromptEditorPage() {
               placeholder={'Write your prompt…\n\nUse {{variables}} for reusable slots, e.g.\nWrite a product description for {{product_name}}.'}
               invalid={Boolean(errors.content)}
               rows={12}
-              className="min-h-[240px] font-mono text-[13px] leading-relaxed"
+              className="min-h-[240px] font-mono text-base sm:text-[13px] leading-relaxed"
               {...register('content')}
             />
             <FieldError>{errors.content?.message}</FieldError>
@@ -444,9 +445,25 @@ export function PromptEditorPage() {
               placeholder="Private notes: when to use it, what to watch out for, versions…"
               invalid={Boolean(errors.notes)}
               rows={4}
+              className="text-base sm:text-sm"
               {...register('notes')}
             />
             <FieldError>{errors.notes?.message}</FieldError>
+          </div>
+
+          {/* Bottom action bar for mobile & desktop */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5">
+            <Button type="button" variant="ghost" onClick={() => navigate(-1)}>
+              Cancel
+            </Button>
+            <div className="flex items-center gap-2">
+              <Button type="button" variant="secondary" disabled={!isValid} onClick={() => void onSaveAndClose()}>
+                Save &amp; Close
+              </Button>
+              <Button type="submit" disabled={!isValid}>
+                Save
+              </Button>
+            </div>
           </div>
         </div>
       </form>

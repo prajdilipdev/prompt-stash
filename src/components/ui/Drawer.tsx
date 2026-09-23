@@ -94,7 +94,7 @@ export function Drawer({
       />
 
       {/* Drawer Panel container */}
-      <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
+      <div className="fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
         <div
           ref={panelRef}
           role="dialog"
@@ -137,7 +137,7 @@ export function DrawerHeader({
   children?: ReactNode
 }) {
   return (
-    <div className="border-b border-border px-6 py-5">
+    <div className="border-b border-border px-4 py-4 sm:px-6 sm:py-5">
       <div className="pr-8">
         <h2 id={id} className="text-h3 font-semibold text-foreground">
           {title}
@@ -157,7 +157,7 @@ export function DrawerBody({
   className?: string
 }) {
   return (
-    <div className={cn('flex-1 overflow-y-auto px-6 py-5', className)}>
+    <div className={cn('flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-5', className)}>
       {children}
     </div>
   )
@@ -173,7 +173,7 @@ export function DrawerFooter({
   return (
     <div
       className={cn(
-        'flex flex-col-reverse justify-end gap-2 border-t border-border bg-surface px-6 py-4 sm:flex-row',
+        'flex flex-col-reverse justify-end gap-2 border-t border-border bg-surface px-4 py-3 sm:flex-row sm:px-6 sm:py-4',
         className,
       )}
     >

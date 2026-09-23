@@ -88,7 +88,7 @@ export function TagManagerDialog({ open, onClose }: { open: boolean; onClose: ()
           description="Rename or delete tags. Deleting a tag removes it from prompts but never deletes the prompts themselves."
         />
 
-        <div className="px-6 py-5">
+        <div className="px-4 py-4 sm:px-6 sm:py-5">
           {/* Create */}
           <form
             className="flex gap-2"

@@ -239,7 +239,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
           role="combobox"
           aria-expanded="true"
           aria-controls="palette-results"
-          className="h-12 w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
+          className="h-12 w-full bg-transparent text-base sm:text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
         />
         <kbd className="hidden rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground sm:block">
           ESC

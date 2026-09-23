@@ -11,6 +11,7 @@ import {
   SlidersHorizontal,
   Star,
   Trash2,
+  X,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { Button, IconButton } from '@/components/ui/Button'
@@ -78,6 +79,14 @@ export function SidebarContent({ onCollapse }: { onCollapse?: () => void }) {
             </svg>
           </IconButton>
         )}
+        <IconButton
+          label="Close menu"
+          size="sm"
+          className="lg:hidden text-muted-foreground hover:text-foreground"
+          onClick={closeMobile}
+        >
+          <X className="h-4 w-4" aria-hidden="true" />
+        </IconButton>
       </div>
 
       {/* Primary action */}

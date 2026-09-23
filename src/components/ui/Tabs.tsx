@@ -50,7 +50,7 @@ export function Tab({ value, children }: { value: string; children: ReactNode })
       aria-controls={`${ctx.baseId}-panel-${value}`}
       onClick={() => ctx.onChange(value)}
       className={cn(
-        'rounded-md px-3 py-1.5 text-[13px] font-medium transition-all duration-150',
+        'whitespace-nowrap shrink-0 rounded-md px-3 py-1.5 text-[13px] font-medium transition-all duration-150',
         active
           ? 'bg-secondary text-foreground shadow-sm'
           : 'text-muted-foreground hover:bg-surface-hover hover:text-foreground',
