@@ -189,7 +189,9 @@ export function SidebarContent({ onCollapse }: { onCollapse?: () => void }) {
             <p className="text-[11px] text-muted-foreground">Prompt Stash account</p>
           </div>
           <Menu
+            side="right"
             align="end"
+            width="w-48"
             trigger={
               <IconButton label="Account menu">
                 <ArchiveRestore className="hidden" aria-hidden="true" />

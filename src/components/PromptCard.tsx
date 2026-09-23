@@ -85,7 +85,7 @@ export function PromptCard({
       aria-label={`Open prompt: ${prompt.title}`}
       className={cn(
         'group relative cursor-pointer rounded-lg border border-border bg-surface-elevated text-left shadow-card outline-none',
-        'transition-all duration-200 hover:border-primary/35 hover:shadow-pop focus-visible:border-primary/50',
+        'transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-pop focus-visible:border-primary/50 active:scale-[0.995]',
         isList ? 'flex items-start gap-4 px-4 py-3.5' : 'flex flex-col gap-2.5 p-4',
       )}
     >

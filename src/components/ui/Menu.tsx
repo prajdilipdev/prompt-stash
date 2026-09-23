@@ -16,6 +16,7 @@ interface MenuProps {
   trigger: ReactElement
   children: ReactNode
   align?: 'start' | 'end'
+  side?: 'bottom' | 'top' | 'right' | 'left'
   width?: string
 }
 
@@ -24,7 +25,7 @@ interface MenuProps {
  * outside click closes, Escape closes, arrow keys navigate items,
  * Enter/Space activates, focus returns to trigger.
  */
-export function Menu({ trigger, children, align = 'end', width = 'w-52' }: MenuProps) {
+export function Menu({ trigger, children, align = 'end', side = 'bottom', width = 'w-52' }: MenuProps) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -86,6 +87,13 @@ export function Menu({ trigger, children, align = 'end', width = 'w-52' }: MenuP
       })
     : trigger
 
+  const positionClasses = {
+    bottom: cn('top-full mt-1.5 origin-top', align === 'end' ? 'right-0' : 'left-0'),
+    top: cn('bottom-full mb-1.5 origin-bottom', align === 'end' ? 'right-0' : 'left-0'),
+    right: 'bottom-0 left-full ml-2 origin-bottom-left',
+    left: 'bottom-0 right-full mr-2 origin-bottom-right',
+  }[side]
+
   return (
     <div ref={containerRef} className="relative inline-flex">
       {triggerElement}
@@ -96,8 +104,8 @@ export function Menu({ trigger, children, align = 'end', width = 'w-52' }: MenuP
           role="menu"
           tabIndex={-1}
           className={cn(
-            'absolute top-full z-[60] mt-1.5 overflow-hidden rounded-md border border-border bg-surface-elevated py-1 shadow-pop animate-scale-in',
-            align === 'end' ? 'right-0' : 'left-0',
+            'absolute z-[70] overflow-hidden rounded-md border border-border bg-surface-elevated py-1 shadow-overlay animate-scale-in',
+            positionClasses,
             width,
           )}
           onKeyDown={(e) => {

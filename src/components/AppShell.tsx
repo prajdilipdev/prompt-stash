@@ -96,13 +96,14 @@ export function AppShell() {
           </div>
         </header>
 
-        {/* Desktop collapse rail */}
+        {/* Desktop expand rail button (placed upside at top left) */}
         {collapsed && (
           <button
             type="button"
             onClick={toggleCollapsed}
             aria-label="Expand sidebar"
-            className="fixed bottom-4 left-0 z-40 hidden h-10 w-5 items-center justify-center rounded-r-md border border-l-0 border-border bg-surface text-muted-foreground transition-colors hover:text-foreground lg:flex"
+            title="Expand sidebar"
+            className="fixed top-4 left-0 z-40 hidden h-9 w-6 items-center justify-center rounded-r-md border border-l-0 border-border bg-surface-elevated text-muted-foreground shadow-card transition-all duration-200 hover:w-7 hover:bg-surface-hover hover:text-foreground active:scale-95 lg:flex"
           >
             <svg viewBox="0 0 8 14" className="h-3 w-3" fill="none" aria-hidden="true">
               <path d="M1 1l6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
