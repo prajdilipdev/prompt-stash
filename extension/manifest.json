@@ -28,6 +28,8 @@
   ],
   "host_permissions": [
     "https://*.supabase.co/*",
+    "https://prompt-stash1.vercel.app/*",
+    "https://*.vercel.app/*",
     "http://localhost:*/*",
     "http://127.0.0.1:*/*"
   ],

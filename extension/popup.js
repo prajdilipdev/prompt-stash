@@ -7,7 +7,7 @@
 const DEFAULT_CONFIG = {
   supabaseUrl: 'https://yympelyhebrcfbuunitr.supabase.co',
   supabaseKey: 'sb_publishable_4ajrjJBrvAaVzNVAOuY5sw_qZt44iSa',
-  webappUrl: 'http://localhost:5173'
+  webappUrl: 'https://prompt-stash1.vercel.app'
 }
 
 let appConfig = { ...DEFAULT_CONFIG }
