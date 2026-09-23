@@ -1,17 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
-    <linearGradient id="ps-tile" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#171b28"/>
-      <stop offset="1" stop-color="#0b0d15"/>
+    <linearGradient id="ps-bg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#181c2e"/>
+      <stop offset="100%" stop-color="#0a0c16"/>
     </linearGradient>
-    <linearGradient id="ps-accent" x1="16" y1="14" x2="48" y2="50" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#8b96ff"/>
-      <stop offset="1" stop-color="#6570f0"/>
+    <linearGradient id="ps-chevron" x1="18" y1="20" x2="38" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
+    <linearGradient id="ps-tray" x1="34" y1="44" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="ps-glow" x="24" y="6" width="34" height="34" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+    </filter>
   </defs>
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#ps-tile)"/>
-  <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="13.25" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
-  <path d="M24.5 15c-4.6 0-6.8 2.4-6.8 6.4 0 2.9.9 4.6 3.3 6.3 1.2.85 1.2 2.35 0 3.2-2.4 1.7-3.3 3.4-3.3 6.3 0 4 2.2 6.4 6.8 6.4" stroke="url(#ps-accent)" stroke-width="3.6" stroke-linecap="round" fill="none"/>
-  <path d="M39.5 15c4.6 0 6.8 2.4 6.8 6.4 0 2.9-.9 4.6-3.3 6.3-1.2.85-1.2 2.35 0 3.2 2.4 1.7 3.3 3.4 3.3 6.3 0 4-2.2 6.4-6.8 6.4" stroke="url(#ps-accent)" stroke-width="3.6" stroke-linecap="round" fill="none"/>
-  <circle cx="32" cy="32" r="3.4" fill="#aeb6ff"/>
+
+  <!-- Squircle Base -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#ps-bg)"/>
+  <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="14.25" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5"/>
+
+  <!-- Subtle stash stack backplate -->
+  <rect x="14" y="14" width="36" height="36" rx="8" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+
+  <!-- Ambient Glow behind spark -->
+  <circle cx="43" cy="21" r="7" fill="#38bdf8" fill-opacity="0.25" filter="url(#ps-glow)"/>
+
+  <!-- Prompt Chevron > -->
+  <path d="M21 20L34 32L21 44" stroke="url(#ps-chevron)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Stash Cursor / Underline _ -->
+  <path d="M37 44H47" stroke="url(#ps-tray)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Spark Star (Variable / AI Spark) -->
+  <path d="M43 14C43 19 45 21 50 21C45 21 43 23 43 28C43 23 41 21 36 21C41 21 43 19 43 14Z" fill="#38bdf8"/>
+  <circle cx="43" cy="21" r="1.5" fill="#ffffff"/>
 </svg>

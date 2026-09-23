@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils'
 
 /**
- * Prompt Stash brand mark — curly braces framing a spark,
- * a nod to the {{variable}} system at the product's core.
+ * Prompt Stash brand mark — prompt chevron nested in a stash vault
+ * illuminated by an ambient variable spark.
  */
 export function LogoMark({ className, size = 28 }: { className?: string; size?: number }) {
   return (
@@ -16,39 +16,74 @@ export function LogoMark({ className, size = 28 }: { className?: string; size?: 
       aria-label="Prompt Stash logo"
     >
       <defs>
-        <linearGradient id="psm-tile" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#171b28" />
-          <stop offset="1" stopColor="#0b0d15" />
+        <linearGradient id="psm-bg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#181c2e" />
+          <stop offset="100%" stopColor="#0a0c16" />
         </linearGradient>
-        <linearGradient id="psm-accent" x1="16" y1="14" x2="48" y2="50" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="hsl(var(--primary) / 0.95)" />
-          <stop offset="1" stopColor="hsl(var(--primary) / 0.75)" />
+        <linearGradient id="psm-chevron" x1="18" y1="20" x2="38" y2="44" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#a855f7" />
+          <stop offset="50%" stopColor="#6366f1" />
+          <stop offset="100%" stopColor="#38bdf8" />
+        </linearGradient>
+        <linearGradient id="psm-tray" x1="34" y1="44" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#6366f1" />
+          <stop offset="100%" stopColor="#38bdf8" />
         </linearGradient>
       </defs>
-      <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#psm-tile)" />
+
+      {/* Squircle base */}
+      <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#psm-bg)" />
       <rect
         x="2.75"
         y="2.75"
         width="58.5"
         height="58.5"
-        rx="13.25"
+        rx="14.25"
         stroke="#ffffff"
-        strokeOpacity="0.09"
+        strokeOpacity="0.12"
         strokeWidth="1.5"
       />
+
+      {/* Stash stack plate */}
+      <rect
+        x="14"
+        y="14"
+        width="36"
+        height="36"
+        rx="8"
+        fill="#ffffff"
+        fillOpacity="0.03"
+        stroke="#ffffff"
+        strokeOpacity="0.05"
+        strokeWidth="1"
+      />
+
+      {/* Ambient glow */}
+      <circle cx="43" cy="21" r="7" fill="#38bdf8" fillOpacity="0.25" />
+
+      {/* Prompt Chevron > */}
       <path
-        d="M24.5 15c-4.6 0-6.8 2.4-6.8 6.4 0 2.9.9 4.6 3.3 6.3 1.2.85 1.2 2.35 0 3.2-2.4 1.7-3.3 3.4-3.3 6.3 0 4 2.2 6.4 6.8 6.4"
-        stroke="url(#psm-accent)"
-        strokeWidth="3.6"
+        d="M21 20L34 32L21 44"
+        stroke="url(#psm-chevron)"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Stash Cursor _ */}
+      <path
+        d="M37 44H47"
+        stroke="url(#psm-tray)"
+        strokeWidth="5"
         strokeLinecap="round"
       />
+
+      {/* Spark Star */}
       <path
-        d="M39.5 15c4.6 0 6.8 2.4 6.8 6.4 0 2.9-.9 4.6-3.3 6.3-1.2.85-1.2 2.35 0 3.2 2.4 1.7 3.3 3.4 3.3 6.3 0 4-2.2 6.4-6.8 6.4"
-        stroke="url(#psm-accent)"
-        strokeWidth="3.6"
-        strokeLinecap="round"
+        d="M43 14C43 19 45 21 50 21C45 21 43 23 43 28C43 23 41 21 36 21C41 21 43 19 43 14Z"
+        fill="#38bdf8"
       />
-      <circle cx="32" cy="32" r="3.4" fill="hsl(var(--primary))" />
+      <circle cx="43" cy="21" r="1.5" fill="#ffffff" />
     </svg>
   )
 }
