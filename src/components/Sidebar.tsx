@@ -46,7 +46,7 @@ export function SidebarContent({ onCollapse }: { onCollapse?: () => void }) {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { toast } = useToast()
-  const { openTagManager, setMobileNavOpen } = useUI()
+  const { openTagManager, setMobileNavOpen, openCreatePrompt } = useUI()
   const { data: tagData } = useTagsWithCounts()
 
   const tags = tagData?.tags ?? []
@@ -91,7 +91,13 @@ export function SidebarContent({ onCollapse }: { onCollapse?: () => void }) {
 
       {/* Primary action */}
       <div className="px-3 pb-2 pt-2">
-        <Button className="w-full" onClick={() => go('/app/prompts/new')}>
+        <Button
+          className="w-full"
+          onClick={() => {
+            openCreatePrompt()
+            closeMobile()
+          }}
+        >
           <Plus className="h-4 w-4" aria-hidden="true" />
           New Prompt
         </Button>

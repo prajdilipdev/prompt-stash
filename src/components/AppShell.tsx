@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import { Inbox, Layers, Menu, Plus, Search, Star } from 'lucide-react'
 import { SidebarContent } from '@/components/Sidebar'
 import { CommandPalette } from '@/components/CommandPalette'
 import { ImportDialog } from '@/components/ImportDialog'
 import { TagManagerDialog } from '@/components/TagManagerDialog'
+import { PromptCreateDrawer } from '@/components/PromptCreateDrawer'
 import { Logo } from '@/components/Logo'
 import { IconButton, Button } from '@/components/ui/Button'
 import { useUI } from '@/components/UIContext'
@@ -15,11 +16,10 @@ const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed'
 
 /**
  * Application shell: sidebar (fixed on desktop, drawer on mobile) + main
- * content, plus global overlays: command palette, import, tag manager.
+ * content, plus global overlays: command palette, import, tag manager, new prompt drawer.
  * Also registers the app-wide keyboard shortcuts.
  */
 export function AppShell() {
-  const navigate = useNavigate()
   const {
     paletteOpen,
     openPalette,
@@ -28,6 +28,9 @@ export function AppShell() {
     closeImport,
     tagManagerOpen,
     closeTagManager,
+    createPromptOpen,
+    openCreatePrompt,
+    closeCreatePrompt,
     mobileNavOpen,
     setMobileNavOpen,
   } = useUI()
@@ -43,7 +46,7 @@ export function AppShell() {
 
   // Global shortcuts
   useHotkey('k', openPalette, { mod: true, ignoreInputs: false })
-  useHotkey('n', () => navigate('/app/prompts/new'), { mod: true })
+  useHotkey('n', openCreatePrompt, { mod: true })
 
   return (
     <div className="flex h-dvh overflow-hidden bg-background">
@@ -89,7 +92,7 @@ export function AppShell() {
             <IconButton label="Search prompts" onClick={openPalette}>
               <Search className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             </IconButton>
-            <Button size="sm" onClick={() => navigate('/app/prompts/new')}>
+            <Button size="sm" onClick={openCreatePrompt}>
               <Plus className="h-4 w-4" aria-hidden="true" />
               New
             </Button>
@@ -149,7 +152,7 @@ export function AppShell() {
 
           <button
             type="button"
-            onClick={() => navigate('/app/prompts/new')}
+            onClick={openCreatePrompt}
             className="-mt-5 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-pop transition-transform active:scale-95"
             aria-label="Create new prompt"
           >
@@ -182,6 +185,7 @@ export function AppShell() {
       <CommandPalette open={paletteOpen} onClose={closePalette} />
       <ImportDialog open={importOpen} onClose={closeImport} />
       <TagManagerDialog open={tagManagerOpen} onClose={closeTagManager} />
+      <PromptCreateDrawer open={createPromptOpen} onClose={closeCreatePrompt} />
     </div>
   )
 }

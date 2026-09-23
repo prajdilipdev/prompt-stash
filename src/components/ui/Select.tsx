@@ -144,7 +144,7 @@ export function Select({
           role="listbox"
           tabIndex={-1}
           className={cn(
-            'absolute right-0 top-full z-50 mt-1.5 min-w-full w-max max-w-xs overflow-hidden rounded-lg border border-border bg-surface-elevated p-1 shadow-overlay animate-scale-in',
+            'absolute right-0 top-full z-50 mt-2.5 min-w-full w-max max-w-xs overflow-hidden rounded-lg border border-border bg-surface-elevated p-1.5 space-y-1 shadow-overlay animate-scale-in',
             width,
           )}
         >
@@ -158,7 +158,7 @@ export function Select({
                 aria-selected={isSelected}
                 onClick={() => select(opt.value)}
                 className={cn(
-                  'flex w-full items-center justify-between gap-3 rounded-md px-2.5 py-1.5 text-left text-xs sm:text-[13px] font-medium transition-colors outline-none',
+                  'flex w-full min-h-[38px] items-center justify-between gap-3 rounded-md px-3.5 py-2.5 text-left text-xs sm:text-[13.5px] font-medium transition-colors outline-none',
                   isSelected
                     ? 'bg-primary-soft text-primary font-semibold'
                     : 'text-foreground/90 hover:bg-surface-hover hover:text-foreground focus:bg-surface-hover focus:text-foreground',

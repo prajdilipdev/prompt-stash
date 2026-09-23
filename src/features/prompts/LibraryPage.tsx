@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   Archive,
   Clock,
@@ -27,6 +27,7 @@ import { Button, IconButton } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
 import { EmptyState, ErrorState } from '@/components/ui/States'
 import { PromptGridSkeleton } from '@/components/ui/Skeleton'
+import { useUI } from '@/components/UIContext'
 import { useDebouncedValue } from '@/hooks/useDebounce'
 import { storage, cn, pluralize } from '@/lib/utils'
 import { useToast } from '@/components/Toast'
@@ -95,6 +96,8 @@ interface LibraryPageProps {
 export function LibraryPage({ view }: LibraryPageProps) {
   const navigate = useNavigate()
   const params = useParams<{ tagId: string }>()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { openCreatePrompt } = useUI()
   const { toast } = useToast()
 
   const { data: tagData } = useTagsWithCounts()
@@ -106,6 +109,15 @@ export function LibraryPage({ view }: LibraryPageProps) {
   const [layout, setLayout] = useState<'grid' | 'list'>(() =>
     storage.get<'grid' | 'list'>('view-mode', 'grid'),
   )
+
+  // Listen for ?new=1 to trigger slide-in drawer
+  useEffect(() => {
+    if (searchParams.get('new') === '1') {
+      openCreatePrompt()
+      searchParams.delete('new')
+      setSearchParams(searchParams, { replace: true })
+    }
+  }, [searchParams, openCreatePrompt, setSearchParams])
 
   // Reset search when navigating between views.
   useEffect(() => {
@@ -166,7 +178,7 @@ export function LibraryPage({ view }: LibraryPageProps) {
             {view === 'recent' && total > 0 && ' · updated in the last 30 days'}
           </p>
         </div>
-        <Button className="hidden sm:inline-flex" onClick={() => navigate('/app/prompts/new')}>
+        <Button className="hidden sm:inline-flex" onClick={openCreatePrompt}>
           <Plus className="h-4 w-4" aria-hidden="true" />
           New Prompt
         </Button>
@@ -298,7 +310,7 @@ export function LibraryPage({ view }: LibraryPageProps) {
             description={emptyMeta.description}
             action={
               !searching && view === 'all' ? (
-                <Button onClick={() => navigate('/app/prompts/new')}>
+                <Button onClick={openCreatePrompt}>
                   <Plus className="h-4 w-4" aria-hidden="true" />
                   Create Prompt
                 </Button>

@@ -147,10 +147,23 @@ export async function fetchLibrary(params: LibraryQuery): Promise<LibraryResult>
   const search = params.search?.trim()
 
   if (search) {
-    const escaped = escapeOrValue(search).replace(/[%_]/g, '\\$&')
-    const pattern = `%${escaped}%`
+    // Split into individual words/tokens to support any word or partial word matches
+    const rawTokens = search.split(/\s+/).map((t) => t.trim()).filter(Boolean)
+    // Always include full search phrase plus individual words/tokens
+    const tokens = Array.from(new Set([search, ...rawTokens]))
 
-    const textFilter = `title.ilike.${pattern},description.ilike.${pattern},content.ilike.${pattern},notes.ilike.${pattern}`
+    const textConditions: string[] = []
+    for (const tok of tokens) {
+      const escaped = escapeOrValue(tok).replace(/[%_]/g, '\\$&')
+      const pattern = `%${escaped}%`
+      textConditions.push(
+        `title.ilike.${pattern}`,
+        `description.ilike.${pattern}`,
+        `content.ilike.${pattern}`,
+        `notes.ilike.${pattern}`,
+      )
+    }
+    const textFilter = textConditions.join(',')
 
     let textQuery = supabase
       .from('prompts')
@@ -167,11 +180,15 @@ export async function fetchLibrary(params: LibraryQuery): Promise<LibraryResult>
       (async () => {
         // Tag-name matches (join filter). Skipped when already filtered by tag.
         if (params.tagId) return { data: [] as unknown[], error: null }
+        const tagConditions = tokens.map((tok) => {
+          const escaped = escapeOrValue(tok).replace(/[%_]/g, '\\$&')
+          return `name.ilike.%${escaped}%`
+        })
         let tagQuery = supabase
           .from('prompts')
           .select('id')
           .limit(SEARCH_FETCH_LIMIT)
-          .or(`name.ilike.${pattern}`, { foreignTable: 'prompt_tags.tags' })
+          .or(tagConditions.join(','), { foreignTable: 'prompt_tags.tags' })
         tagQuery = applyViewFilters(tagQuery, params.view)
         return tagQuery
       })(),
@@ -194,8 +211,57 @@ export async function fetchLibrary(params: LibraryQuery): Promise<LibraryResult>
       for (const row of (extra.data ?? []) as unknown as PromptRow[]) byId.set(row.id, row)
     }
 
-    const items = sortPrompts(Array.from(byId.values()).map(mapPrompt), params.sort)
-    return { items, total: items.length, hasMore: false }
+    const searchLower = search.toLowerCase()
+    const tokenLowers = rawTokens.map((t) => t.toLowerCase())
+
+    // Score prompts for intelligent relevance ranking
+    const scorePrompt = (p: Prompt): number => {
+      const titleLower = p.title.toLowerCase()
+      const descLower = p.description.toLowerCase()
+      const contentLower = p.content.toLowerCase()
+      const tagNames = p.tags.map((t) => t.name.toLowerCase())
+
+      let score = 0
+
+      // Exact phrase match in title
+      if (titleLower === searchLower) score += 5000
+      else if (titleLower.startsWith(searchLower)) score += 3000
+      else if (titleLower.includes(searchLower)) score += 2000
+
+      // Individual token matches in title
+      let allTokensInTitle = true
+      for (const tok of tokenLowers) {
+        if (titleLower.includes(tok)) {
+          score += 500
+          if (new RegExp(`(?:^|\\s)${tok}`, 'i').test(titleLower)) score += 250
+        } else {
+          allTokensInTitle = false
+        }
+      }
+      if (allTokensInTitle && tokenLowers.length > 1) score += 1000
+
+      // Matches in tags
+      for (const tok of tokenLowers) {
+        if (tagNames.some((n) => n.includes(tok))) score += 300
+      }
+
+      // Matches in description & content
+      for (const tok of tokenLowers) {
+        if (descLower.includes(tok)) score += 100
+        if (contentLower.includes(tok)) score += 50
+      }
+
+      return score
+    }
+
+    const allMatched = Array.from(byId.values()).map(mapPrompt)
+    allMatched.sort((a, b) => {
+      const diff = scorePrompt(b) - scorePrompt(a)
+      if (diff !== 0) return diff
+      return comparators[params.sort](a, b)
+    })
+
+    return { items: allMatched, total: allMatched.length, hasMore: false }
   }
 
   // No search — server-side pagination.

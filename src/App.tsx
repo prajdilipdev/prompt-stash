@@ -75,7 +75,7 @@ export default function App() {
                 >
                   <Route index element={<Navigate to="/app/prompts" replace />} />
                   <Route path="prompts" element={<LibraryPage view="all" />} />
-                  <Route path="prompts/new" element={<PromptEditorPage />} />
+                  <Route path="prompts/new" element={<Navigate to="/app/prompts?new=1" replace />} />
                   <Route path="prompts/:id" element={<PromptDetailPage />} />
                   <Route path="prompts/:id/edit" element={<PromptEditorPage />} />
                   <Route path="favorites" element={<LibraryPage view="favorites" />} />

@@ -44,7 +44,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
   const navigate = useNavigate()
   const { toast } = useToast()
   const { setMode, resolved, cycleAccent } = useTheme()
-  const { openImport } = useUI()
+  const { openImport, openCreatePrompt } = useUI()
 
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
@@ -96,7 +96,10 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         label: 'New Prompt',
         hint: `${modKeyLabel()} N`,
         icon: <Plus className="h-4 w-4" />,
-        perform: () => go('/app/prompts/new'),
+        perform: () => {
+          onClose()
+          openCreatePrompt()
+        },
       },
       {
         id: 'all',
