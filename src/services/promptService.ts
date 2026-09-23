@@ -320,6 +320,9 @@ export async function resolveTags(names: string[]): Promise<Tag[]> {
   const existing = await fetchUserTags()
   const existingByName = new Map(existing.map((t) => [t.name.toLowerCase(), t]))
 
+  const { data: authData } = await supabase.auth.getUser()
+  const userId = authData?.user?.id
+
   const resolved: Tag[] = []
   for (const name of wanted) {
     const found = existingByName.get(name.toLowerCase())
@@ -327,9 +330,13 @@ export async function resolveTags(names: string[]): Promise<Tag[]> {
       resolved.push(found)
       continue
     }
+    const insertPayload: { name: string; user_id?: string } = { name }
+    if (userId) {
+      insertPayload.user_id = userId
+    }
     const { data, error } = await supabase
       .from('tags')
-      .insert({ name })
+      .insert(insertPayload)
       .select()
       .single()
     if (error) {
@@ -368,15 +375,23 @@ async function setPromptTags(promptId: string, tags: Tag[]): Promise<void> {
 
 export async function createPrompt(input: PromptInput): Promise<Prompt> {
   const tags = await resolveTags(input.tagNames)
+  const { data: authData } = await supabase.auth.getUser()
+  const userId = authData?.user?.id
+
+  const insertPayload: Record<string, unknown> = {
+    title: input.title.trim(),
+    description: input.description.trim(),
+    content: input.content,
+    notes: input.notes.trim(),
+    is_favorite: input.isFavorite,
+  }
+  if (userId) {
+    insertPayload.user_id = userId
+  }
+
   const { data, error } = await supabase
     .from('prompts')
-    .insert({
-      title: input.title.trim(),
-      description: input.description.trim(),
-      content: input.content,
-      notes: input.notes.trim(),
-      is_favorite: input.isFavorite,
-    })
+    .insert(insertPayload)
     .select()
     .single()
   assertNoError(error, 'Could not create the prompt.')

@@ -24,7 +24,7 @@ create table if not exists public.profiles (
 -- ------------------------------------------------------------
 create table if not exists public.prompts (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users (id) on delete cascade,
+  user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
   title text not null check (char_length(trim(title)) between 1 and 300),
   description text not null default '' check (char_length(description) <= 2000),
   content text not null check (char_length(content) between 1 and 100000),
@@ -42,7 +42,7 @@ create table if not exists public.prompts (
 -- ------------------------------------------------------------
 create table if not exists public.tags (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users (id) on delete cascade,
+  user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
   name text not null check (char_length(trim(name)) between 1 and 40),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
