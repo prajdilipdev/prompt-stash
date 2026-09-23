@@ -1,0 +1,308 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   PROMPT STASH — DESIGN TOKENS
+   Themes: Obsidian Pro (dark, default) · Paper Pro (light)
+   Accents: blue · indigo · violet · emerald · teal · amber
+   ============================================================ */
+
+:root {
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  /* Typography */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+  --font-mono:
+    ui-monospace, 'SF Mono', SFMono-Regular, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+
+  /* Layout */
+  --sidebar-width: 264px;
+  --content-max-width: 80rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 420ms;
+
+  --primary-soft-alpha: 0.12;
+}
+
+/* ---------- Obsidian Pro (dark) ---------- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --background: 228 14% 5.5%;
+  --foreground: 220 25% 96%;
+
+  --surface: 228 12% 8%; /* sidebar */
+  --surface-elevated: 227 11% 10.5%; /* cards, modals */
+  --surface-hover: 226 11% 13%;
+  --input: 228 13% 7.5%;
+
+  --border: 226 12% 22%;
+  --muted: 227 11% 13%;
+  --muted-foreground: 224 9% 62%;
+
+  --secondary: 227 11% 14%;
+  --secondary-foreground: 220 15% 88%;
+
+  --success: 152 62% 50%;
+  --warning: 40 92% 58%;
+  --danger: 352 74% 62%;
+  --info: 205 85% 62%;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.25), 0 0 0 1px rgb(255 255 255 / 0.015);
+  --shadow-pop: 0 4px 16px rgb(0 0 0 / 0.4), 0 1px 3px rgb(0 0 0 / 0.3);
+  --shadow-overlay: 0 16px 48px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.35);
+}
+
+/* ---------- Paper Pro (light) ---------- */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --background: 42 25% 97%;
+  --foreground: 228 18% 12%;
+
+  --surface: 40 20% 95.5%;
+  --surface-elevated: 0 0% 100%;
+  --surface-hover: 40 14% 92.5%;
+  --input: 0 0% 100%;
+
+  --border: 40 12% 85%;
+  --muted: 40 14% 93%;
+  --muted-foreground: 228 8% 44%;
+
+  --secondary: 40 12% 92%;
+  --secondary-foreground: 228 12% 24%;
+
+  --success: 152 60% 34%;
+  --warning: 36 90% 40%;
+  --danger: 352 72% 46%;
+  --info: 207 80% 44%;
+
+  --shadow-card: 0 1px 2px rgb(24 28 45 / 0.05), 0 0 0 1px rgb(24 28 45 / 0.02);
+  --shadow-pop: 0 4px 16px rgb(24 28 45 / 0.1), 0 1px 3px rgb(24 28 45 / 0.06);
+  --shadow-overlay: 0 16px 48px rgb(24 28 45 / 0.16), 0 2px 8px rgb(24 28 45 / 0.08);
+}
+
+/* ---------- Accent presets ----------
+   Only controlled surfaces use the accent: primary buttons, active nav,
+   focus rings, links, selected states, subtle highlights. */
+
+:root[data-accent='blue'] {
+  --primary: 213 94% 62%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 213 94% 62%;
+}
+:root[data-theme='light'][data-accent='blue'] {
+  --primary: 214 90% 46%;
+  --ring: 214 90% 46%;
+}
+
+:root[data-accent='indigo'] {
+  --primary: 234 88% 70%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 234 88% 72%;
+}
+:root[data-theme='light'][data-accent='indigo'] {
+  --primary: 235 76% 56%;
+  --ring: 235 76% 56%;
+}
+
+:root[data-accent='violet'] {
+  --primary: 262 82% 70%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 262 82% 72%;
+}
+:root[data-theme='light'][data-accent='violet'] {
+  --primary: 263 70% 52%;
+  --ring: 263 70% 52%;
+}
+
+:root[data-accent='emerald'] {
+  --primary: 160 68% 46%;
+  --primary-foreground: 158 60% 7%;
+  --ring: 160 68% 50%;
+}
+:root[data-theme='light'][data-accent='emerald'] {
+  --primary: 161 68% 34%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 161 68% 38%;
+}
+
+:root[data-accent='teal'] {
+  --primary: 178 70% 44%;
+  --primary-foreground: 180 60% 6%;
+  --ring: 178 70% 48%;
+}
+:root[data-theme='light'][data-accent='teal'] {
+  --primary: 179 72% 30%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 179 72% 34%;
+}
+
+:root[data-accent='amber'] {
+  --primary: 39 92% 56%;
+  --primary-foreground: 32 60% 10%;
+  --ring: 39 92% 58%;
+}
+:root[data-theme='light'][data-accent='amber'] {
+  --primary: 36 90% 42%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 36 90% 45%;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+@layer base {
+  * {
+    border-color: hsl(var(--border) / 0.75);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.28);
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring) / 0.85);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Themed scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.28) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.24);
+    border-radius: 8px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+    background-clip: content-box;
+    border: 3px solid transparent;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ============================================================
+   UTILITIES & MOTION
+   ============================================================ */
+
+@layer utilities {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:shadow-pop;
+  }
+
+  /* IntersectionObserver reveal (About page & routes) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      100deg,
+      hsl(var(--muted)) 40%,
+      hsl(var(--surface-hover)) 50%,
+      hsl(var(--muted)) 60%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      hsl(var(--foreground)) 20%,
+      hsl(var(--primary)) 60%,
+      hsl(var(--foreground)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle editorial background grid for the About hero */
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.35) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Route transition wrapper */
+.page-enter {
+  animation: fade-up 0.32s var(--ease-out) both;
+}

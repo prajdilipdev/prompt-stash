@@ -1,0 +1,33 @@
+module.exports = {
+  root: true,
+  env: { browser: true, es2022: true, node: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:jsx-a11y/recommended',
+  ],
+  ignorePatterns: [
+    'dist',
+    'node_modules',
+    'src-tauri',
+    'playwright-report',
+    'test-results',
+    'coverage',
+    '.eslintrc.cjs',
+    'tailwind.config.js',
+    'postcss.config.js',
+  ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['react', 'react-hooks', 'jsx-a11y', '@typescript-eslint'],
+  settings: { react: { version: '18.0' } },
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-explicit-any': 'error',
+    'jsx-a11y/no-autofocus': 'off',
+    'no-empty': ['error', { allowEmptyCatch: true }],
+  },
+}

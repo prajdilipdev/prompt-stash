@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Environment — never commit credentials
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist
+dist-ssr
+*.tsbuildinfo
+
+# Tauri
+src-tauri/target
+src-tauri/gen
+
+# Testing & QA tooling output
+coverage
+playwright-report
+test-results
+scripts/qa-shots
+
+# Logs & misc
+*.log
+.DS_Store
+*.local

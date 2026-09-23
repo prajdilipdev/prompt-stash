@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-accent="indigo">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Prompt Stash — Your prompts, organized.</title>
+    <meta
+      name="description"
+      content="Save, organize, refine, and reuse your best AI prompts. Prompt Stash is a focused workspace for the prompts you rely on every day."
+    />
+    <meta property="og:title" content="Prompt Stash — Your prompts, organized." />
+    <meta
+      property="og:description"
+      content="Save, organize, refine, and reuse your best AI prompts."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="theme-color" content="#0a0c12" />
+    <script>
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('promptstash:theme')
+          var accent = localStorage.getItem('promptstash:accent')
+          var mode = stored || 'system'
+          var resolved = mode
+          if (mode === 'system') {
+            resolved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+          }
+          document.documentElement.dataset.theme = resolved
+          document.documentElement.classList.toggle('dark', resolved === 'dark')
+          if (accent) document.documentElement.dataset.accent = accent
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      Prompt Stash requires JavaScript. Save, organize, refine, and reuse your best AI prompts.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
