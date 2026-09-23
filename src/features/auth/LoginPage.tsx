@@ -8,7 +8,7 @@ import { AuthLayout } from './AuthLayout'
 import { RedirectIfAuthed } from './RequireAuth'
 import { Button } from '@/components/ui/Button'
 import { FieldError, Input, Label } from '@/components/ui/Field'
-import { isSupabaseConfigured, supabase, supabaseErrorMessage } from '@/lib/supabase'
+import { isMockMode, isSupabaseConfigured, supabase, supabaseErrorMessage } from '@/lib/supabase'
 import { useToast } from '@/components/Toast'
 
 const loginSchema = z.object({
@@ -91,36 +91,40 @@ export function LoginPage() {
         }
       >
         <div className="space-y-4">
-          <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5 font-medium text-primary">
-              <Sparkles className="h-4 w-4" />
-              <span>Mock Authentication Mode Active</span>
-            </div>
-            <p className="mt-1 leading-relaxed">
-              Use <strong>1-Click Demo Login</strong> below or enter any email and password to test the app locally.
-            </p>
-          </div>
+          {isMockMode && (
+            <>
+              <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1.5 font-medium text-primary">
+                  <Sparkles className="h-4 w-4" />
+                  <span>Mock Authentication Mode Active</span>
+                </div>
+                <p className="mt-1 leading-relaxed">
+                  Use <strong>1-Click Demo Login</strong> below or enter any email and password to test the app locally.
+                </p>
+              </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full border-primary/40 bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary active:bg-primary/25"
-            size="lg"
-            loading={isDemoSubmitting}
-            onClick={handleDemoLogin}
-          >
-            <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
-            1-Click Demo Login (QA User)
-          </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-primary/40 bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary active:bg-primary/25"
+                size="lg"
+                loading={isDemoSubmitting}
+                onClick={handleDemoLogin}
+              >
+                <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
+                1-Click Demo Login (QA User)
+              </Button>
 
-          <div className="relative my-2 flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
-            </div>
-            <span className="relative bg-surface-elevated px-2.5 text-xs text-muted-foreground">
-              or sign in with email
-            </span>
-          </div>
+              <div className="relative my-2 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border" />
+                </div>
+                <span className="relative bg-surface-elevated px-2.5 text-xs text-muted-foreground">
+                  or sign in with email
+                </span>
+              </div>
+            </>
+          )}
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
             {formError && (

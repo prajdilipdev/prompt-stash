@@ -8,13 +8,22 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
  * is enforced server-side by PostgreSQL Row Level Security.
  */
 
-let url = import.meta.env.VITE_SUPABASE_URL?.trim()
+const rawUrl = import.meta.env.VITE_SUPABASE_URL?.trim()
+export const isMockMode = Boolean(
+  rawUrl && (rawUrl.includes('127.0.0.1') || rawUrl.includes('localhost') || rawUrl.includes('mock')),
+)
 
-// Dev-only QA mode (`QA_PROXY=1 npm run dev`): the dev server proxies /rest
-// and /auth to the QA double, so every viewer — including sandbox preview
-// browsers on other origins — must call the same origin it was served from.
-// This flag is compiled to `false` in production builds.
-if (typeof __QA_PROXY__ !== 'undefined' && __QA_PROXY__ && import.meta.env.DEV && typeof window !== 'undefined') {
+let url = rawUrl
+
+// Dev-only QA mode: only proxy /rest and /auth to same origin if pointing to local mock double.
+// When pointing to a live Supabase cloud project (*.supabase.co), talk directly to Supabase.
+if (
+  typeof __QA_PROXY__ !== 'undefined' &&
+  __QA_PROXY__ &&
+  import.meta.env.DEV &&
+  typeof window !== 'undefined' &&
+  isMockMode
+) {
   url = window.location.origin
 }
 

@@ -8,7 +8,7 @@ import { AuthLayout } from './AuthLayout'
 import { RedirectIfAuthed } from './RequireAuth'
 import { Button } from '@/components/ui/Button'
 import { FieldError, Input, Label } from '@/components/ui/Field'
-import { isSupabaseConfigured, supabase, supabaseErrorMessage } from '@/lib/supabase'
+import { isMockMode, isSupabaseConfigured, supabase, supabaseErrorMessage } from '@/lib/supabase'
 
 const signupSchema = z
   .object({
@@ -105,19 +105,21 @@ export function SignupPage() {
         }
       >
         <div className="space-y-4">
-          <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5 font-medium text-primary">
-              <Sparkles className="h-4 w-4" />
-              <span>Mock Authentication Mode Active</span>
+          {isMockMode && (
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1.5 font-medium text-primary">
+                <Sparkles className="h-4 w-4" />
+                <span>Mock Authentication Mode Active</span>
+              </div>
+              <p className="mt-1 leading-relaxed">
+                Sign up with any mock email to create a new session instantly, or{' '}
+                <Link to="/login" className="font-medium text-primary underline underline-offset-2">
+                  use 1-Click Demo Login
+                </Link>
+                .
+              </p>
             </div>
-            <p className="mt-1 leading-relaxed">
-              Sign up with any mock email to create a new session instantly, or{' '}
-              <Link to="/login" className="font-medium text-primary underline underline-offset-2">
-                use 1-Click Demo Login
-              </Link>
-              .
-            </p>
-          </div>
+          )}
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
             {formError && (
