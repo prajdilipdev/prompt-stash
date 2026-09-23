@@ -15,6 +15,8 @@ module.exports = {
     'playwright-report',
     'test-results',
     'coverage',
+    'extension',
+    'scripts',
     '.eslintrc.cjs',
     'tailwind.config.js',
     'postcss.config.js',

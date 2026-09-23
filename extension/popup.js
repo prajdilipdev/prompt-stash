@@ -199,6 +199,20 @@ async function fetchPrompts() {
     }
   } catch (err) {
     console.error('Error fetching prompts:', err)
+    if (allPrompts.length === 0) {
+      const container = document.getElementById('prompt-list')
+      if (container) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">⚠️</div>
+            <div class="empty-title">Connection Problem</div>
+            <div class="empty-desc">Could not reach Supabase. Check your internet connection or verify your API keys in Settings.</div>
+            <button type="button" class="btn btn-xs btn-primary" id="btn-retry-fetch" style="margin-top:8px;">Retry</button>
+          </div>
+        `
+        document.getElementById('btn-retry-fetch')?.addEventListener('click', () => fetchPrompts())
+      }
+    }
   }
 }
 

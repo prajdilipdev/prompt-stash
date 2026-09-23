@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/lib/queryClient'
 import { isSupabaseConfigured } from '@/lib/supabase'
@@ -9,6 +9,7 @@ import { RequireAuth } from '@/features/auth/RequireAuth'
 import { ConfigGate } from '@/features/auth/ConfigGate'
 import { UIProvider } from '@/components/UIContext'
 import { AppShell } from '@/components/AppShell'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { SignupPage } from '@/features/auth/SignupPage'
 import { ForgotPasswordPage } from '@/features/auth/ForgotPasswordPage'
@@ -27,6 +28,7 @@ function RootRedirect() {
 }
 
 function NotFoundPage() {
+  const navigate = useNavigate()
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-background px-4 text-center">
       <p className="text-label uppercase tracking-widest text-muted-foreground">404</p>
@@ -34,7 +36,7 @@ function NotFoundPage() {
       <p className="max-w-sm text-sm text-muted-foreground">
         The page you are looking for does not exist. Your prompts, however, are safe.
       </p>
-      <Button onClick={() => (window.location.href = '/')}>Back to Prompt Stash</Button>
+      <Button onClick={() => navigate('/')}>Back to Prompt Stash</Button>
     </div>
   )
 }
@@ -42,19 +44,22 @@ function NotFoundPage() {
 export default function App() {
   if (!isSupabaseConfigured) {
     return (
-      <ThemeProvider>
-        <ToastProvider>
-          <ConfigGate />
-        </ToastProvider>
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ThemeProvider>
+          <ToastProvider>
+            <ConfigGate />
+          </ToastProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
     )
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <ToastProvider>
-          <BrowserRouter>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <ToastProvider>
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <AuthProvider>
               <Routes>
                 <Route path="/" element={<RootRedirect />} />
@@ -94,5 +99,6 @@ export default function App() {
         </ToastProvider>
       </ThemeProvider>
     </QueryClientProvider>
-  )
+  </ErrorBoundary>
+)
 }

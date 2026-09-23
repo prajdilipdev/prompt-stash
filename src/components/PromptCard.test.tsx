@@ -40,7 +40,7 @@ const prompt: Prompt = {
 
 function renderCard() {
   return render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ToastProvider>
         <PromptCard prompt={prompt} />
       </ToastProvider>
@@ -86,7 +86,7 @@ describe('PromptCard', () => {
       tags: Array.from({ length: 5 }, (_, i) => ({ id: `t${i}`, name: `Tag ${i}`, createdAt: '' })),
     }
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ToastProvider>
           <PromptCard prompt={manyTags} />
         </ToastProvider>

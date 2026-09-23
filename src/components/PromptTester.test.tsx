@@ -29,7 +29,7 @@ const prompt: Prompt = {
 
 function renderTester() {
   return render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ToastProvider>
         <PromptTester prompt={prompt} onClose={() => {}} />
       </ToastProvider>
