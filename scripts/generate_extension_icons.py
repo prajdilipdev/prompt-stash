@@ -74,7 +74,7 @@ SVG_CONTENT = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fil
 '''
 
 
-def render_icon(target_size):
+def render_icon(target_size, solid_bg=False):
     """Render high-quality supersampled raster icon."""
     scale = 4  # 4x supersampling for ultra sharp antialiasing
     canvas_size = target_size * scale
@@ -85,7 +85,7 @@ def render_icon(target_size):
     # Image canvas
     img = Image.new("RGBA", (canvas_size, canvas_size), (0, 0, 0, 0))
     
-    # 1. Background squircle gradient
+    # 1. Background gradient
     grad = np.zeros((canvas_size, canvas_size, 4), dtype=np.uint8)
     for y in range(canvas_size):
         t = y / (canvas_size - 1)
@@ -96,27 +96,28 @@ def render_icon(target_size):
     
     bg_img = Image.fromarray(grad, mode="RGBA")
     
-    # Rounded mask
-    mask = Image.new("L", (canvas_size, canvas_size), 0)
-    corner_radius = int(15 * s)
-    margin = int(2 * s)
-    ImageDraw.Draw(mask).rounded_rectangle(
-        [margin, margin, canvas_size - margin - 1, canvas_size - margin - 1],
-        radius=corner_radius,
-        fill=255
-    )
-    img.paste(bg_img, (0, 0), mask)
-    
-    draw = ImageDraw.Draw(img)
-    
-    # 2. Subtle outer border
-    border_w = max(1, int(1.5 * s))
-    draw.rounded_rectangle(
-        [margin, margin, canvas_size - margin - 1, canvas_size - margin - 1],
-        radius=corner_radius,
-        outline=STROKE_BORDER,
-        width=border_w
-    )
+    if solid_bg:
+        img.paste(bg_img, (0, 0))
+    else:
+        # Rounded mask for standalone transparent icons
+        mask = Image.new("L", (canvas_size, canvas_size), 0)
+        corner_radius = int(15 * s)
+        margin = int(2 * s)
+        ImageDraw.Draw(mask).rounded_rectangle(
+            [margin, margin, canvas_size - margin - 1, canvas_size - margin - 1],
+            radius=corner_radius,
+            fill=255
+        )
+        img.paste(bg_img, (0, 0), mask)
+        
+        draw = ImageDraw.Draw(img)
+        border_w = max(1, int(1.5 * s))
+        draw.rounded_rectangle(
+            [margin, margin, canvas_size - margin - 1, canvas_size - margin - 1],
+            radius=corner_radius,
+            outline=STROKE_BORDER,
+            width=border_w
+        )
     
     # 3. Ambient Glow behind spark
     glow = Image.new("RGBA", (canvas_size, canvas_size), (0, 0, 0, 0))
@@ -225,8 +226,26 @@ def main():
         img.save(out_path, format="PNG")
         print(f"Saved: {out_path} ({sz}x{sz})")
         
-    # 3. Public icons and Tauri/web assets
-    p256 = ROOT / "public" / "icon-256.png"
+    # 3. Public icons, Apple Touch Icon, and PWA assets
+    pub_dir = ROOT / "public"
+    
+    # Apple Touch Icon (180x180 with solid background for iOS/macOS Safari)
+    apple_icon = render_icon(180, solid_bg=True)
+    apple_icon.save(pub_dir / "apple-touch-icon.png", format="PNG")
+    apple_icon.save(pub_dir / "apple-touch-icon-precomposed.png", format="PNG")
+    print("Saved: public/apple-touch-icon.png (180x180 solid for Safari)")
+    print("Saved: public/apple-touch-icon-precomposed.png (180x180 solid for Safari)")
+    
+    # Standard PWA Icons (192x192, 512x512)
+    icon192 = render_icon(192, solid_bg=True)
+    icon192.save(pub_dir / "icon-192.png", format="PNG")
+    print("Saved: public/icon-192.png (192x192 for PWA)")
+    
+    icon512 = render_icon(512, solid_bg=True)
+    icon512.save(pub_dir / "icon-512.png", format="PNG")
+    print("Saved: public/icon-512.png (512x512 for PWA)")
+
+    p256 = pub_dir / "icon-256.png"
     img256 = render_icon(256)
     img256.save(p256, format="PNG")
     print(f"Saved: {p256} (256x256)")
